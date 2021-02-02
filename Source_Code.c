@@ -477,6 +477,13 @@ void parse_input(char line[])
             printf(" > Error(9). Unknown option of wrong command. Try again, please\n");
             return;
         }
+        if(((line[i] == 'n' && line[i - 1] == 'i') || (line[i] == 's' && line[i - 1] == 'o') ||
+            (line[i] == 'n' && line[i - 1] == 'a') || (line[i] == 'g' && line[i - 1] == 't') ||
+            (line[i] == 't' && line[i] == 'r')) && line[i + 1] != '(')
+        {
+            printf(" > Error(10). Unknown option of wrong command. Try again, please\n");
+            return;
+        }
         if(((line[i] >= '0' && line[i] <= '9') || line[i] == ')') && line[i + 1] == '(')
         {
             printf(" > Error! Missing sign before bracket! Try again, please\n");
@@ -955,11 +962,18 @@ void factorial(char line[])
         if(line[i] == '!')
             end = i;
     for(int i = end - 1; i >= 0; i--)
-        if(line[i] < '0' || line[i] > '9')
+    {
+        if(line[i] == '.')
+        {
+            printf(" > Error! Factorial may be only positive integer. Try again, please\n");
+            break;
+        }
+        if((line[i] < '0' || line[i] > '9') && line[i] != '.')
         {
             start = i;
             break;
         }
+    }
     char factor[NUM] = {0};
     int j = 0;
     if(start == 0)
