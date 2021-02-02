@@ -76,7 +76,7 @@ double number(char line[])
 
 double exponents(char line[])
 {
-    int rise[10]  = {0};
+    int rise[15]  = {0};
     int j = 0;
     for(int i = 0; line[i] != '\0'; i++)
         if(line[i] == '^')
@@ -95,7 +95,7 @@ double exponents(char line[])
     double exponent = 0;
     double result = 0;
     int counter = 0;
-    char expo[100] = {0};
+    char expo[NUM] = {0};
     j = 0;
     for(int i = rise[count] + 1; i < len; i++)
     {
@@ -406,7 +406,7 @@ void parse_brackets(char line[])
 
 void parse_input(char line[])
 {
-    char temp[200] = {0};
+    char temp[MAX] = {0};
     int j = 0;
     for(int i = 0; line[i] != '\0'; i++)
         if((line[i] == '+' && line[i + 1] == '-') || (line[i] == '-' && line[i + 1] == '-'))
@@ -665,7 +665,7 @@ void sqr(char line[])
         }
     }
     double second = 0;
-    char sec[100] = {0};
+    char sec[NUM] = {0};
     j = 0;
     for(int i = start; sqrt[i] != '\0'; i++)
     {
@@ -689,7 +689,7 @@ void sqr(char line[])
         line[j] = sqrt[i];
         j++;
     }
-    char temp[200] = {0};
+    char temp[MAX] = {0};
     j = 0;
     for(int i = 0; line[i] != '\0'; i++)
         if(line[i] != 'z')
@@ -781,7 +781,7 @@ void trigon(char line[])
     int len = 0;
     for(int i = 0; line[i] != '\0'; i++)
         len++;
-    char trigon[50] = {0};
+    char trigon[NUM] = {0};
     int sin_trig = 0, cos_trig = 0, tan_trig = 0, ctg_trig = 0;
     int j = 0;
     int start = 0, end = 0;
@@ -909,7 +909,7 @@ void trigon(char line[])
         line[i] = trigon[j];
         j++;
     }
-    char temp[200] = {0};
+    char temp[MAX] = {0};
     j = 0;
     for(int i = 0; i < start; i++)
     {
