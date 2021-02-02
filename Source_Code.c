@@ -362,6 +362,8 @@ void parse_brackets(char line[])
             }
             break;
         }
+        for(int i = 0; input[i] != '\0'; i++)
+            input[i] = '\0';
         convert(result(nested), input);
         int counter = 0;
         for(int i = 0; input[i] != '\0'; i++)
