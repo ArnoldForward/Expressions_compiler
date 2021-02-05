@@ -481,7 +481,7 @@ void parse_input(char line[])
         }
         if(((line[i] == 'n' && line[i - 1] == 'i') || (line[i] == 's' && line[i - 1] == 'o') ||
             (line[i] == 'n' && line[i - 1] == 'a') || (line[i] == 'g' && line[i - 1] == 't') ||
-            (line[i] == 't' && line[i] == 'r')) && line[i + 1] != '(')
+            (line[i] == 't' && line[i - 1] == 'r')) && line[i + 1] != '(')
         {
             printf(" > Error(10). Unknown option of wrong command. Try again, please\n");
             return;
