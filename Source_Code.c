@@ -430,13 +430,16 @@ void parse_input(char line[])
         }
         if((line[i] == 's' && !(line[i + 1] == 'i' && line[i + 2] == 'n')) &&
            (line[i] == 's' && !(line[i + 1] == 'q' && line[i + 2] == 'r' && line[i + 3] == 't')) &&
-           (line[i] == 's' && !(line[i - 1] == 'o' && line[i - 2] == 'c')))
+           (line[i] == 's' && !(line[i - 1] == 'o' && line[i - 2] == 'c')) &&
+           (line[i] == 's' && !(line[i + 1] == 'e' && line[i + 2] == 'c')))
         {
             printf(" > Error(1). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if((line[i] == 'c' && !(line[i + 1] == 'o' && line[i + 2] == 's')) &&
-           (line[i] == 'c' && !(line[i + 1] == 't' && line[i + 2] == 'g')))
+        if((line[i] == 'c' && !(line[i + 1] == 'o' && line[i + 2] == 's') &&
+           (line[i] == 'c' && !(line[i + 1] == 't' && line[i + 2] == 'g') &&
+           (line[i] == 'c' && !(line[i - 2] == 'a' && line[i - 1] == 'r') &&
+           (line[i] == 'c' && !(line[i - 2] == 's' && line[i - 1] == 'e'))))))
         {
             printf(" > Error(2). Unknown option of wrong command. Try again, please\n");
             return;
@@ -459,7 +462,8 @@ void parse_input(char line[])
             printf(" > Error(5). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if(line[i] == 'a' && !(line[i - 1] == 't' && line[i + 1] == 'n'))
+        if(line[i] == 'a' && (!(line[i - 1] == 't' && line[i + 1] == 'n') && !(line[i + 1] == 'r' &&
+                                                                               line[i + 2] == 'c')))
         {
             printf(" > Error(6). Unknown option of wrong command. Try again, please\n");
             return;
@@ -474,18 +478,20 @@ void parse_input(char line[])
             printf(" > Error(8). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if(line[i] == 'r' && !(line[i + 1] == 't' && line[i - 1] == 'q' && line[i - 2] == 's'))
+        if(line[i] == 'r' && (!(line[i + 1] == 't' && line[i - 1] == 'q' && line[i - 2] == 's'))
+                && !(line[i - 1] == 'a' && line[i + 1] == 'c'))
         {
             printf(" > Error(9). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if(((line[i] == 'n' && line[i - 1] == 'i') || (line[i] == 's' && line[i - 1] == 'o') ||
+        /*if(((line[i] == 'n' && line[i - 1] == 'i') || (line[i] == 's' && line[i - 1] == 'o') ||
             (line[i] == 'n' && line[i - 1] == 'a') || (line[i] == 'g' && line[i - 1] == 't') ||
-            (line[i] == 't' && line[i - 1] == 'r')) && line[i + 1] != '(')
+            (line[i] == 't' && line[i - 1] == 'r') || (line[i] == 'c' && line[i - 1] == 'e' &&
+                               line[i - 2] == 's' && line[i - 3] == 'o')) && line[i + 1] != '(')
         {
             printf(" > Error(10). Unknown option of wrong command. Try again, please\n");
             return;
-        }
+        }*/
         if(((line[i] >= '0' && line[i] <= '9') || line[i] == ')') && line[i + 1] == '(')
         {
             printf(" > Error! Missing sign before bracket! Try again, please\n");
@@ -957,6 +963,281 @@ void parse_trigon(char line[])
     }
 }
 
+double arcsin(double arg)
+{
+    if(arg < -1 || arg > 1)
+    {
+        printf("Error! Argument must be in range between -1 and 1\n");
+        return 0;
+    }
+    if(arg == 1)
+        return 90;
+    else if(arg == -1)
+        return -90;
+    else if(arg == 0.5)
+        return 30;
+    else if(arg == -0.5)
+        return -30;
+    int min_trig = 0;
+    if(arg < 0)
+    {
+        min_trig = 1;
+        arg *= -1;
+    }
+    double res = 0;
+    while(sin(res) < arg)
+        res++;
+    double d = 0.5;
+    res -= d;
+    while(1)
+    {
+        d /= 2;
+        if(sin(res) < arg)
+            res += d;
+        else if(sin(res) > arg)
+            res -= d;
+        if(arg - sin(res) > -0.000000001 && arg - sin(res) < 0.000000001)
+            break;
+    }
+    if(min_trig == 1)
+        res *= -1;
+    return res;
+}
+
+double arccos(double arg)
+{
+    if(arg < -1 || arg > 1)
+    {
+        printf("Error! Argument must be in range between -1 and 1\n");
+        return 0;
+    }
+    if(arg == 1)
+        return 0;
+    else if(arg == -1)
+        return 0;
+    else if(arg == 0.5)
+        return 60;
+    else if(arg == -0.5)
+        return -60;
+    double res = 0;
+    while(cos(res) > arg)
+        res++;
+    double d = 0.5;
+    res -= d;
+    while(1)
+    {
+        d /= 2;
+        if(cos(res) < arg)
+            res -= d;
+        else if(cos(res) > arg)
+            res += d;
+        if(arg - cos(res) > -0.000000001 && arg - cos(res) < 0.000000001)
+            break;
+    }
+    return res;
+}
+
+double arctan(double arg)
+{
+    int min_trig = 0;
+    if(arg < 0)
+    {
+        min_trig = 1;
+        arg *= -1;
+    }
+    double res = 0;
+    while(sin(res)/cos(res) < arg)
+        res++;
+    double d = 0.5;
+    res -= d;
+    while(1)
+    {
+        d /= 2;
+        if(sin(res)/cos(res) < arg)
+            res += d;
+        else if(sin(res)/cos(res) > arg)
+            res -= d;
+        if(arg - sin(res)/cos(res) > -0.000000001 && arg - sin(res)/cos(res) < 0.000000001)
+            break;
+    }
+    if(min_trig == 1)
+        res *= -1;
+    return res;
+}
+
+double arcctg(double arg)
+{
+    double res = 0;
+    while(cos(res)/sin(res) > arg)
+        res++;
+    double d = 0.5;
+    res -= d;
+    while(1)
+    {
+        d /= 2;
+        if(cos(res)/sin(res) > arg)
+            res += d;
+        else if(cos(res)/sin(res) < arg)
+            res -= d;
+        if(arg - cos(res)/sin(res) > -0.000000001 && arg - cos(res)/sin(res) < 0.000000001)
+            break;
+    }
+    return res;
+}
+
+double sec(double arg)
+{
+    double res = 1/cos(arg);
+    return res;
+}
+
+double cosec(double arg)
+{
+    double res = 1/sin(arg);
+    return res;
+}
+
+void rev_trigon(char line[])
+{
+    int start = -1;
+    int arcsin_trig = 0, arccos_trig = 0, arctan_trig = 0, arcctg_trig = 0, sec_trig = 0, cosec_trig = 0;
+    for(int i = 0; line[i] != '\0'; i++)
+    {
+        if(arcsin_trig == 0 && (line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 's' && line[i + 4] == 'i' && line[i + 5] == 'n')))
+        {
+            arcsin_trig = 1;
+            start = i;
+            break;
+        }
+        if(arccos_trig == 0 && (line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 'c' && line[i + 4] == 'o' && line[i + 5] == 's')))
+        {
+            arccos_trig = 1;
+            start = i;
+            break;
+        }
+        if(arctan_trig == 0 && (line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 't' && line[i + 4] == 'a' && line[i + 5] == 'n')))
+        {
+            arctan_trig = 1;
+            start = i;
+            break;
+        }
+        if(arcctg_trig == 0 && (line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 'c' && line[i + 4] == 't' && line[i + 5] == 'g')))
+        {
+            arcctg_trig = 1;
+            start = i;
+            break;
+        }
+        if(sec_trig == 0 && (line[i] == 's' && line[i + 1] == 'e' && line[i + 2] == 'c'))
+        {
+            sec_trig = 1;
+            start = i;
+            break;
+        }
+        if(cosec_trig == 0 && (line[i] == 'c' && line[i + 1] == 'o' && line[i + 2] == 's' &&
+          (line[i + 3] == 'e' && line[i + 4] == 'c')))
+        {
+            cosec_trig = 1;
+            start = i;
+            break;
+        }
+    }
+    int end = 0;
+    if(start == -1)
+        return;
+    for(int i = start; line[i] != '\0'; i++)
+        if(line[i] == ')')
+        {
+            end = i;
+            break;
+        }
+    int expr_begin = 0;
+    for(int i = start; i <= end; i++)
+        if(line[i] == '(')
+            expr_begin = i + 1;
+    char trigon[100] = {0};
+    int j = 0;
+    for(int i = expr_begin; i < end; i++)
+    {
+        trigon[j] = line[i];
+        j++;
+    }
+    double x = result(trigon);
+    if(arcsin_trig == 1)
+        x = arcsin(x);
+    else if(arccos_trig == 1)
+        x = arccos(x);
+    else if(arctan_trig == 1)
+        x = arctan(x);
+    else if(arcctg_trig == 1)
+        x = arcctg(x);
+    else if(sec_trig == 1)
+        x = sec(x);
+    else if(cosec_trig == 1)
+        x = cosec(x);
+    for(int i = 0; trigon[i] != '\0'; i++)
+        trigon[i] = '\0';
+    convert(x, trigon);
+    char temp[200] = {0};
+    j = 0;
+    for(int i = 0; i < start; i++)
+    {
+        temp[j] = line[i];
+        j++;
+    }
+    for(int i = 0; trigon[i] != '\0'; i++)
+    {
+        temp[j] = trigon[i];
+        j++;
+    }
+    for(int i = end + 1; line[i] != '\0'; i++)
+    {
+        temp[j] = line[i];
+        j++;
+    }
+    for(int i = 0; line[i] != '\0'; i++)
+        line[i] = '\0';
+    j = 0;
+    for(int i = 0; temp[i] != '\0'; i++)
+    {
+        line[j] = temp[i];
+        j++;
+    }
+}
+
+void parse_rev_trigon(char line[])
+{
+    int rev_trig_counter = 0;
+    for(int i = 0; line[i] != '\0'; i++)
+    {
+        if(line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 's' && line[i + 4] == 'i' && line[i + 5] == 'n'))
+            rev_trig_counter++;
+        if(line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 'c' && line[i + 4] == 'o' && line[i + 5] == 's'))
+            rev_trig_counter++;
+        if(line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 't' && line[i + 4] == 'a' && line[i + 5] == 'n'))
+            rev_trig_counter++;
+        if(line[i] == 'a' && line[i + 1] == 'r' && line[i + 2] == 'c' &&
+          (line[i + 3] == 'c' && line[i + 4] == 't' && line[i + 5] == 'g'))
+            rev_trig_counter++;
+        if(line[i] == 's' && line[i + 1] == 'e' && line[i + 2] == 'c')
+            rev_trig_counter++;
+        if(line[i] == 'c' && line[i + 1] == 'o' && line[i + 2] == 's' &&
+                (line[i + 3] == 'e' && line[i + 4] == 'c'))
+            rev_trig_counter++;
+    }
+    while(rev_trig_counter > 0)
+    {
+        rev_trigon(line);
+        rev_trig_counter--;
+    }
+}
+
 void factorial(char line[])
 {
     int start = 0, end = 0;
@@ -1063,6 +1344,7 @@ void start(char line[])
         parse_input(line);
         parse_factorials(line);
         parse_sqrts(line);
+        parse_rev_trigon(line);
         parse_trigon(line);
         ignore_spaces(line);
         parse_brackets(line);
