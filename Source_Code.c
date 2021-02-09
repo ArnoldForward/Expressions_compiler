@@ -484,14 +484,6 @@ void parse_input(char line[])
             printf(" > Error(9). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        /*if(((line[i] == 'n' && line[i - 1] == 'i') || (line[i] == 's' && line[i - 1] == 'o') ||
-            (line[i] == 'n' && line[i - 1] == 'a') || (line[i] == 'g' && line[i - 1] == 't') ||
-            (line[i] == 't' && line[i - 1] == 'r') || (line[i] == 'c' && line[i - 1] == 'e' &&
-                               line[i - 2] == 's' && line[i - 3] == 'o')) && line[i + 1] != '(')
-        {
-            printf(" > Error(10). Unknown option of wrong command. Try again, please\n");
-            return;
-        }*/
         if(((line[i] >= '0' && line[i] <= '9') || line[i] == ')') && line[i + 1] == '(')
         {
             printf(" > Error! Missing sign before bracket! Try again, please\n");
@@ -967,7 +959,7 @@ double arcsin(double arg)
 {
     if(arg < -1 || arg > 1)
     {
-        printf("Error! Argument must be in range between -1 and 1\n");
+        printf(" > Error! Argument must be in range between -1 and 1\n");
         return 0;
     }
     if(arg == 1)
@@ -1008,7 +1000,7 @@ double arccos(double arg)
 {
     if(arg < -1 || arg > 1)
     {
-        printf("Error! Argument must be in range between -1 and 1\n");
+        printf(" > Error! Argument must be in range between -1 and 1\n");
         return 0;
     }
     if(arg == 1)
@@ -1158,7 +1150,7 @@ void rev_trigon(char line[])
     for(int i = start; i <= end; i++)
         if(line[i] == '(')
             expr_begin = i + 1;
-    char trigon[100] = {0};
+    char trigon[NUM] = {0};
     int j = 0;
     for(int i = expr_begin; i < end; i++)
     {
@@ -1181,7 +1173,7 @@ void rev_trigon(char line[])
     for(int i = 0; trigon[i] != '\0'; i++)
         trigon[i] = '\0';
     convert(x, trigon);
-    char temp[200] = {0};
+    char temp[MAX] = {0};
     j = 0;
     for(int i = 0; i < start; i++)
     {
@@ -1333,8 +1325,10 @@ void start(char line[])
     printf(" *********|   as 57000) or '28e-4' (understands as 0.028),  '^'  for exponentation  (in form of 7.8^5.1)   |**********\n");
     printf(" *********|   root extraction  of  any integer  degree, in  form 'sqrt(7, 4892.17)',  where   the  first   |**********\n");
     printf(" *********|   number is  integer degree, input trigonometric  functions,  in form 'sin(7.46)', cos(254),   |**********\n");
-    printf(" *********|   'tan(185) of 'ctg(12.5)', and factorial of positive integer number in form '5!' (what means  |**********\n");
-    printf(" *********|    '5*4*3*2*1' and gives '120'. Program  catches incorrect input and ignores  spaces.  Go!     |**********\n");
+    printf(" *********|   'tan(185) of  'ctg(12.5)', reverse  trigonometric  functions  as  'arcsin()',  'arccos()',   |**********\n");
+    printf(" *********|   'arctan()', 'arcctg()', 'sec()', 'cosec()', and factorial of positive integer number in      |**********\n");
+    printf(" *********|   form '5!' (what means '5*4*3*2*1' and gives '120'. Program  catches incorrect  input and     |**********\n");
+    printf(" *********|                                     ignores  spaces.  Go!                                      |**********\n");
     printf(" *********|                                                                                                |**********\n");
     printf(" ---------------------------------------------------------------------------------------------------------------------\n\n");
     while(1)
