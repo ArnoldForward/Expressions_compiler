@@ -323,8 +323,14 @@ void parse_brackets(char line[])
     if(brac_count == 0)
     {
         convert(result(line), input);
-        printf(" > ");
-        puts(input);
+        for(int i = 0; line[i] != '\0'; i++)
+            line[i] = '\0';
+        int j = 0;
+        for(int i = 0; input[i] != '\0'; i++)
+        {
+            line[j] = input[i];
+            j++;
+        }
         return;
     }
     while(brac_count > 0)
@@ -400,8 +406,14 @@ void parse_brackets(char line[])
         }
         brac_count--;
     }
-    printf(" > ");
-    puts(input);
+    for(int i = 0; line[i] != '\0'; i++)
+        line[i] = '\0';
+    int j = 0;
+    for(int i = 0; input[i] != '\0'; i++)
+    {
+        line[j] = input[i];
+        j++;
+    }
 }
 
 void parse_input(char line[])
@@ -462,8 +474,8 @@ void parse_input(char line[])
             printf(" > Error(5). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if(line[i] == 'a' && (!(line[i - 1] == 't' && line[i + 1] == 'n') && !(line[i + 1] == 'r' &&
-                                                                               line[i + 2] == 'c')))
+        if((line[i] == 'a' && line[i - 1] != 't' && line[i + 1] != 'n') && (line[i] == 'a' &&
+                                          line[i + 1] != 'r' && line[i + 2] != 'c'))
         {
             printf(" > Error(6). Unknown option of wrong command. Try again, please\n");
             return;
@@ -478,8 +490,8 @@ void parse_input(char line[])
             printf(" > Error(8). Unknown option of wrong command. Try again, please\n");
             return;
         }
-        if(line[i] == 'r' && (!(line[i + 1] == 't' && line[i - 1] == 'q' && line[i - 2] == 's'))
-                && !(line[i - 1] == 'a' && line[i + 1] == 'c'))
+        if((line[i] == 'r' && line[i + 1] != 't' && line[i - 1] != 'q')
+                && (line[i] == 'r' && line[i - 1] != 'a' && line[i + 1] != 'c'))
         {
             printf(" > Error(9). Unknown option of wrong command. Try again, please\n");
             return;
@@ -1342,6 +1354,8 @@ void start(char line[])
         parse_trigon(line);
         ignore_spaces(line);
         parse_brackets(line);
+        printf(" > ");
+        puts(line);
         for(int i = 0; line[i] != '\0'; i++)
             line[i] = '\0';
     }
