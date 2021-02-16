@@ -1354,7 +1354,7 @@ void start(char line[])
         parse_trigon(line);
         ignore_spaces(line);
         parse_brackets(line);
-        printf(" > ");
+        printf(" = ");
         puts(line);
         for(int i = 0; line[i] != '\0'; i++)
             line[i] = '\0';
