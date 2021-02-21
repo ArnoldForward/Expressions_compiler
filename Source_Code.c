@@ -2,6 +2,7 @@
 #include <math.h>
 #define MAX 500
 #define NUM 100
+int error = 0;
 
 double number(char line[])
 {
@@ -148,6 +149,7 @@ double result(char line[])
         if(line[i] == ',')
         {
             printf(" > Error! Use only point symbol '.' to divide fractional part of number from integer part\n");
+            error = -1;
             for(int k = 0; line[k] != '\0'; k++)
                 line[k] = '\0';
             return 0;
@@ -433,11 +435,13 @@ void parse_input(char line[])
             line[i] == '<' || line[i] == '>' || (line[i] >= 'A' && line[i] <= 'Z'))
         {
             printf(" > Error. Wrong symbol! Please, try again\n");
+            error = -1;
             return ;
         }
         if(line[i] == '[' || line[i] == ']' || line[i] == '{' || line[i] == '}')
         {
             printf(" > Error. Wrong brackets! Use only round brackets '(' and ')'");
+            error = -1;
             return;
         }
         if((line[i] == 's' && !(line[i + 1] == 'i' && line[i + 2] == 'n')) &&
@@ -446,6 +450,7 @@ void parse_input(char line[])
            (line[i] == 's' && !(line[i + 1] == 'e' && line[i + 2] == 'c')))
         {
             printf(" > Error(1). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if((line[i] == 'c' && !(line[i + 1] == 'o' && line[i + 2] == 's') &&
@@ -454,6 +459,7 @@ void parse_input(char line[])
            (line[i] == 'c' && !(line[i - 2] == 's' && line[i - 1] == 'e'))))))
         {
             printf(" > Error(2). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if((line[i] == 't' && !(line[i + 1] == 'a' && line[i + 2] == 'n')) &&
@@ -461,49 +467,58 @@ void parse_input(char line[])
            (line[i] == 't' && !(line[i - 1] == 'r' && line[i - 2] == 'q' && line[i - 3] == 's')))
         {
             printf(" > Error(3). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if(line[i] == 'i' && !(line[i + 1] == 'n' && line[i - 1] == 's'))
         {
             printf(" > Error(4). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if((line[i] == 'n' && !(line[i - 1] == 'i' && line[i - 2] == 's')) &&
            (line[i] == 'n' && !(line[i - 1] == 'a' && line[i - 2] == 't')))
         {
             printf(" > Error(5). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if((line[i] == 'a' && line[i - 1] != 't' && line[i + 1] != 'n') && (line[i] == 'a' &&
                                           line[i + 1] != 'r' && line[i + 2] != 'c'))
         {
             printf(" > Error(6). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if(line[i] == 'g' && !(line[i - 1] == 't' && line[i - 2] == 'c'))
         {
             printf(" > Error(7). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if(line[i] == 'q' && !(line[i - 1] == 's' && line[i + 1] == 'r' && line[i + 2] == 't'))
         {
             printf(" > Error(8). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if((line[i] == 'r' && line[i + 1] != 't' && line[i - 1] != 'q')
                 && (line[i] == 'r' && line[i - 1] != 'a' && line[i + 1] != 'c'))
         {
             printf(" > Error(9). Unknown option of wrong command. Try again, please\n");
+            error = -1;
             return;
         }
         if(((line[i] >= '0' && line[i] <= '9') || line[i] == ')') && line[i + 1] == '(')
         {
             printf(" > Error! Missing sign before bracket! Try again, please\n");
+            error = -1;
             return;
         }
         if(line[i] == ')' && (line[i + 1] == '(' || (line[i + 1] >= '0' && line[i + 1] <= '9')))
         {
             printf(" > Error! Missing sign after bracket! Try again, please\n");
+            error = -1;
             return;
         }
         if(line[i] != ' ')
@@ -525,6 +540,7 @@ void parse_input(char line[])
     if(brackets != 0)
     {
         printf(" > Error! Wrong brackets combination!\n");
+        error = -1;
         return;
     }
     for(int i = 0; line[i] != '\0'; i++)
@@ -610,6 +626,7 @@ double root(int root, double num)
     if(minus == 1 && root % 2 == 0)
     {
         printf("Wrong expression!\n");
+        error = -1;
         return 0;
     }
     else if(minus == 1 && root % 2 != 0)
@@ -795,6 +812,7 @@ void trigon(char line[])
     int sin_trig = 0, cos_trig = 0, tan_trig = 0, ctg_trig = 0;
     int j = 0;
     int start = 0, end = 0;
+    int brac_trig = 0;
     for(int i = 0; line[i] != '\0'; i++)
     {
         if(line[i] == 's' && line[i + 1] == 'i' && line[i + 2] == 'n')
@@ -859,6 +877,14 @@ void trigon(char line[])
         if(line[i] == ')' && ctg_trig == 1)
         {
             end = i;
+            break;
+        }
+        if((sin_trig == 1 || cos_trig == 1 || tan_trig == 1 || ctg_trig == 1) && line[i] == '(')
+            brac_trig++;
+        if(brac_trig > 1)
+        {
+            printf(" > Error! Argument to trigonometric function must not contain brackets\n");
+            error = -1;
             break;
         }
     }
@@ -972,6 +998,7 @@ double arcsin(double arg)
     if(arg < -1 || arg > 1)
     {
         printf(" > Error! Argument must be in range between -1 and 1\n");
+        error = -1;
         return 0;
     }
     if(arg == 1)
@@ -1013,6 +1040,7 @@ double arccos(double arg)
     if(arg < -1 || arg > 1)
     {
         printf(" > Error! Argument must be in range between -1 and 1\n");
+        error = -1;
         return 0;
     }
     if(arg == 1)
@@ -1153,15 +1181,29 @@ void rev_trigon(char line[])
     if(start == -1)
         return;
     for(int i = start; line[i] != '\0'; i++)
+    {
         if(line[i] == ')')
         {
             end = i;
             break;
         }
+    }
     int expr_begin = 0;
+    int brac_count = 0;
     for(int i = start; i <= end; i++)
+    {
         if(line[i] == '(')
+        {
             expr_begin = i + 1;
+            brac_count++;
+        }
+        if(brac_count > 1)
+        {
+            printf(" > Error! Argument to trigonometric function must not contain brackets\n");
+            error = -1;
+            break;
+        }
+    }
     char trigon[NUM] = {0};
     int j = 0;
     for(int i = expr_begin; i < end; i++)
@@ -1253,6 +1295,7 @@ void factorial(char line[])
         if(line[i] == '.')
         {
             printf(" > Error! Factorial may be only positive integer. Try again, please\n");
+            error = -1;
             break;
         }
         if((line[i] < '0' || line[i] > '9') && line[i] != '.')
@@ -1345,6 +1388,7 @@ void start(char line[])
     printf(" ---------------------------------------------------------------------------------------------------------------------\n\n");
     while(1)
     {
+        error = 0;
         printf(" > ");
         gets(line);
         parse_input(line);
@@ -1354,8 +1398,17 @@ void start(char line[])
         parse_trigon(line);
         ignore_spaces(line);
         parse_brackets(line);
-        printf(" = ");
-        puts(line);
+        if(error == 0)
+        {
+            printf(" = ");
+            puts(line);
+        }
+        else if(error == -1)
+        {
+            for(int i = 0; line[i] != '\0'; i++)
+                line[i] = '\0';
+            continue;
+        }
         for(int i = 0; line[i] != '\0'; i++)
             line[i] = '\0';
     }
