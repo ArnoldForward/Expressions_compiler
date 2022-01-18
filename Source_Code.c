@@ -4,6 +4,7 @@
 #define NUM 100
 int error = 0;
 
+
 double number(char line[])
 {
     char base[MAX] = {0};
@@ -75,6 +76,7 @@ double number(char line[])
     return number;
 }
 
+
 double exponents(char line[])
 {
     int rise[15]  = {0};
@@ -131,6 +133,7 @@ double exponents(char line[])
     result = pow(base, exponent);
     return result;
 }
+
 
 double result(char line[])
 {
@@ -191,6 +194,7 @@ double result(char line[])
     }
     return sum;
 }
+
 
 void convert(double num, char final[])
 {
@@ -315,6 +319,7 @@ void convert(double num, char final[])
     return ;
 }
 
+
 void parse_brackets(char line[])
 {
     char input [MAX] = {0};
@@ -417,6 +422,7 @@ void parse_brackets(char line[])
         j++;
     }
 }
+
 
 void parse_input(char line[])
 {
@@ -553,6 +559,7 @@ void parse_input(char line[])
     }
 }
 
+
 void ignore_spaces(char line[])
 {
     char temp[MAX] = {0};
@@ -575,6 +582,7 @@ void ignore_spaces(char line[])
         j++;
     }
 }
+
 
 double root(int root, double num)
 {
@@ -633,6 +641,7 @@ double root(int root, double num)
         base *= -1;
     return base;
 }
+
 
 void sqr(char line[])
 {
@@ -734,6 +743,7 @@ void sqr(char line[])
     }
 }
 
+
 void parse_sqrts(char line[])
 {
     while(1)
@@ -751,6 +761,7 @@ void parse_sqrts(char line[])
             break;
     }
 }
+
 
 double sin(double grad)
 {
@@ -775,6 +786,7 @@ double sin(double grad)
     pow(rad, 9)/362880 - pow(rad, 11)/39916800 + pow(rad, 13)/6227020800 - pow(rad, 15)/1307674368000;
     return rad;
 }
+
 
 double cos(double grad)
 {
@@ -802,6 +814,7 @@ double cos(double grad)
     pow(rad, 8)/40320 - pow(rad, 10)/3628800 + pow(rad, 12)/479001600 - pow(rad, 14)/87178291200;
     return rad;
 }
+
 
 void trigon(char line[])
 {
@@ -972,6 +985,7 @@ void trigon(char line[])
     }
 }
 
+
 void parse_trigon(char line[])
 {
     while(1)
@@ -992,6 +1006,7 @@ void parse_trigon(char line[])
             break;
     }
 }
+
 
 double arcsin(double arg)
 {
@@ -1035,6 +1050,7 @@ double arcsin(double arg)
     return res;
 }
 
+
 double arccos(double arg)
 {
     if(arg < -1 || arg > 1)
@@ -1069,6 +1085,7 @@ double arccos(double arg)
     return res;
 }
 
+
 double arctan(double arg)
 {
     int min_trig = 0;
@@ -1097,6 +1114,7 @@ double arctan(double arg)
     return res;
 }
 
+
 double arcctg(double arg)
 {
     double res = 0;
@@ -1117,17 +1135,20 @@ double arcctg(double arg)
     return res;
 }
 
+
 double sec(double arg)
 {
     double res = 1/cos(arg);
     return res;
 }
 
+
 double cosec(double arg)
 {
     double res = 1/sin(arg);
     return res;
 }
+
 
 void rev_trigon(char line[])
 {
@@ -1254,6 +1275,7 @@ void rev_trigon(char line[])
     }
 }
 
+
 void parse_rev_trigon(char line[])
 {
     int rev_trig_counter = 0;
@@ -1283,6 +1305,7 @@ void parse_rev_trigon(char line[])
         rev_trig_counter--;
     }
 }
+
 
 void factorial(char line[])
 {
@@ -1353,6 +1376,7 @@ void factorial(char line[])
     }
 }
 
+
 void parse_factorials(char line[])
 {
     while(1)
@@ -1370,6 +1394,22 @@ void parse_factorials(char line[])
             break;
     }
 }
+
+
+void input(char line[])
+{
+    int i = 0;
+    while(scanf("%c", &line[i]))
+    {
+        if(line[i] == '\n')
+        {
+            line[i] = '\0';
+            break;
+        }
+        i++;
+    }
+}
+
 
 void start(char line[])
 {
@@ -1390,7 +1430,7 @@ void start(char line[])
     {
         error = 0;
         printf(" > ");
-        gets(line);
+        input(line);
         parse_input(line);
         parse_factorials(line);
         parse_sqrts(line);
@@ -1413,6 +1453,7 @@ void start(char line[])
             line[i] = '\0';
     }
 }
+
 
 int main()
 {
